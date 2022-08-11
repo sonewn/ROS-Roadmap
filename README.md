@@ -1,5 +1,5 @@
 # ROS-Roadmap
-This is roadmap of the ROS programming for beginners.
+This is a roadmap of the ROS for beginners.
 
 <br>
 
