@@ -24,4 +24,4 @@ The following graph shows how ROS files and folder are organized on the disk:
   
   * **Messages** : They are a type of information that is sent from one ROS process to the other. They are regular text files with `.msg` extension that define the fields of the message.
   
-  * **service** : It is a kind of request/reply interaction between processes. The reply and request data types can be defined inside the `srv` folder inside the packages.
+  * **service** : It is a kind of request/reply interaction between processes. The reply and request data types can be defined inside the `src` folder inside the packages.
