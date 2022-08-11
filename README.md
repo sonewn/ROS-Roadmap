@@ -3,11 +3,21 @@ This is a roadmap of the ROS for beginners.
 
 <br>
 
-## 1. Basic Docs
+## 0. Basic Docs
 
 * [ROS org](http://wiki.ros.org/)
   * [ROS Tutorials](http://wiki.ros.org/ROS/Tutorials)
 * [ROS docs 1](https://robertchoi.gitbook.io/ros/)
+
+
+<br>
+
+## 1. ROS(Robot Operating System)
+
+The Robot Operating System (ROS) is a set of software libraries and tools that help you build robot applications. <br>
+From drivers to state-of-the-art algorithms, and with powerful developer tools, ROS has what you need for your next robotics project. And it's all open source.
+
+
 <br>
 
 ## 2. ROS file system structure
@@ -25,3 +35,8 @@ The following graph shows how ROS files and folder are organized on the disk:
   * **Messages** : They are a type of information that is sent from one ROS process to the other. They are regular text files with `.msg` extension that define the fields of the message.
   
   * **service** : It is a kind of request/reply interaction between processes. The reply and request data types can be defined inside the `src` folder inside the packages.
+
+* **The workspace** <br>
+In general terms, the workspace is a folder which contains packages, those packages contain our source files and the environment or workspace provides us with a wqy to compile those packages. It is useful when we want to compile various packages at the same time and it is a good way of centralizing all of our developments.
+
+
