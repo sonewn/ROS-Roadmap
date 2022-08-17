@@ -40,3 +40,108 @@ The following graph shows how ROS files and folder are organized on the disk:
 In general terms, the workspace is a folder which contains packages, those packages contain our source files and the environment or workspace provides us with a wqy to compile those packages. It is useful when we want to compile various packages at the same time and it is a good way of centralizing all of our developments.
 
 
+
+<br>
+
+## 3. ROS Master, nodes and topics
+
+One of the primary purpose of ROS is to facilitate communication between the ROS modules called nodes. Those nodes can be executed on a single machine or across several machines, obtaining a distributed system. The advantage of this structure is that each node can control one aspect of a system. For example you might have several nodes each be reposible of parsing row data from sensors and one node to process them.
+
+* **ROS Master** <br>
+
+Communication between nodes is established by the `ROS Master`. <br>
+The `ROS Master` provides naming and registration services to the nodes in the ROS system. <br>
+It is its job to track **publishers** and **subscribers** to the **topics**. <br><br>
+
+> ROS master works much like a DNS server. Whenever any node starts in the ROS system, it will start looking for ROS master and register the name of the node with ROS master. Therefore, ROS master has information about all the nodes that are currently running on the ROS system. When information about any node changes, it will generate a call back and update with the latest information.
+
+![image](https://user-images.githubusercontent.com/89831708/185063597-fd30e78c-e882-4751-b966-ff9b7403dcf5.png)
+
+<br>
+
+> ROS Master distributes the information about the topics to the nodes. Before a node can publish to a topic, it **sends the details of the topic(its name, data type..)**, to ROS master. `ROS master` will check whether any otehr nodes are subscribed to the same topic. If any nodes are subscribed to the same topic, ROS master will **share the nodes details of the publisher to the subscriber node**.
+<br>
+After receiving the node details, these **two nodes will interconnect** using the `TCPROS protocol`, which is based on `TCP/IP sockets`, and `ROS master` will relinquish its role in controlling them.
+
+<br><br>
+
+To start ROS master, open a terminal and run
+
+```
+roscore
+```
+
+Any ROS system must have **`only one master`**, even in a distributed system, and it should run on a computer that is reachable by all other computers to ensure that remote ROS nodes can access the master.
+
+<br><br>
+
+* **ROS nodes**
+
+Basically, `nodes` are regular processes but with the capability to register with the `ROS Master node` and communicate with other nodes in the system.
+The ROS design idea is that each node is an independent module that interacts with other nodes using the ROS communication capability. <br>
+
+The nodes can be created in various ways. From a terminal window a node can be created directly by typing a command after the command prompt, as shown in the examples to follow. Alternatively, nodes can be created as part of a program written in Python or C++. 
+<br>
+As example let's run the `tutlesim` node, in a new terminal run
+
+```
+rosrun turtlesim turtlesim_node
+```
+
+<br>
+
+
+* **ROS topics** <br>
+
+Topics are the means used by nodes to transmit data, it represents the channel where message are sent and it has a message type attached to it (you cannot sed different types of message in a topic). <br>
+In ROS, data production and consumption are decoupled, this means that a node can publish message (producer) or subscribe to a topic (consumer).
+
+Let's use `rqt_growth` which shows the nodes and topics currently running.
+
+```
+rosrun rqt_graph rqt_graph
+```
+
+
+
+<br>
+
+## 4. Anatomy of a ROS node
+
+The simplest C++ ROS node has a structure similar to the following
+
+``` C++
+#include "ros/ros.h"
+
+int main(int argc, char **argv) {
+ ros::init(argc, argv, "example_node");
+ ros::NodeHandle n;
+ 
+ ros::Rate loop_rate(50);
+ 
+ while (ros::ok()) {
+  // ... do some useful things ...
+  ros::spinOnce();
+  loop_rate.sleep();
+ }
+ return 0;
+}
+
+<br>
+
+Let's analyze it line by line: the first line
+
+```C++
+#include "ros/ros.h"
+```
+
+adds the `header` containing all the basic ROS functionality. At the beginning of the main of the program.
+
+```C++
+ros::init(argc, argv, "example_node");
+```
+
+`ros::init` initialize the node, it is responsible for collecting ROS specific informaion from arguments passed at the command line and set the node name
+
+
+
