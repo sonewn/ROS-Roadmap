@@ -96,10 +96,13 @@ $ rosrun turtlesim turtlesim_node
 
 * **ROS topics** <br>
 
-Topics are the means used by nodes to transmit data, it represents the channel where message are sent and it has a message type attached to it (you cannot sed different types of message in a topic). <br>
-In ROS, data production and consumption are decoupled, this means that a node can publish message (producer) or subscribe to a topic (consumer).
+`Topics` are the means used by nodes **to transmit data**, it represents **the channel where message are sent and it has a message type attached to it** (you cannot send different types of message in a topic). <br>
+In ROS, **data production** and **consumption** are **decoupled**, this means that a `node` can 
 
-Let's use `rqt_growth` which shows the nodes and topics currently running.
+**publish message (`producer`)** or **subscribe to a topic (`consumer`)**.
+<br>
+
+Let's use `rqt_growth` which shows **the nodes and topics currently running**.
 
 ```
 rosrun rqt_graph rqt_graph
@@ -129,6 +132,7 @@ int main(int argc, char **argv) {
  }
  return 0;
 }
+```
 
 <br>
 
@@ -139,12 +143,48 @@ Let's analyze it line by line: the first line
 ```
 
 adds the `header` containing all the basic ROS functionality. At the beginning of the main of the program.
+<br>
+
 
 ```C++
 ros::init(argc, argv, "example_node");
 ```
 
-`ros::init` initialize the node, it is responsible for collecting ROS specific informaion from arguments passed at the command line and set the node name
+`ros::init` **initialize the node**, it is responsible for **collecting ROS specific informaion** from arguments passed at the command line and **set the node name** (remember: names must be unique across the ROS system). But it **does not contact the master**. <br>
+To contact the master and register the node we need to call
+<br>
+
+```C++
+ros::NodeHandle n;
+```
+<br>
+
+When the first `ros::NodeHandle` is created it will call `ros::start()`, and when the last ros::NodeHandle is destroyed (e.g goes out of scope), it will call `ros::shutdown()`. This is the modst common way of handling the lifetime of a ROS node.<br>
+
+Usually we want to run our node at a given frequency, to set the node frequency we use
+```C++
+ros::Rate loop_rate(50);
+```
+<br>
+which is setting the desired rate at 50 Hz. Then we have the **main loop** of the node. Since we want to run this node until the ROS we need to the check the various states of shutdown.<br>
+The most common way to do it is to call `ros::ok()`. Once `ros::ok()` returns false, the node has finished shutting down. That's why we have <br>
+```C++
+while (ros::ok()) {
+ // ...
+ }
+```
+<br>
+
+Inside the loop we can make interseting things happen. In our example we simply run <br>
+```C++
+ros::spinOnce();
+loop_rate.sleep();
+```
+<br>
+The function `ros::spinOnce()` will call all the callbacks waiting to be called at that point in time while. If you remember we set the node frequency to 50Hz, the code we are running will probably take less than 20ms. The function `loop_rate.sleep()` will pause the node the remaining time.
+<br>
+
+
 
 
 
