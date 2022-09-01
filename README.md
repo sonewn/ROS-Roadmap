@@ -62,6 +62,7 @@ It is its job to track **publishers** and **subscribers** to the **topics**. <br
 <br>
 
 > ROS Master distributes the information about the topics to the nodes. Before a node can publish to a topic, it **sends the details of the topic(its name, data type..)**, to ROS master. `ROS master` will check whether **any otehr nodes are subscribed to the same topic**. If any nodes are subscribed to the same topic, ROS master will **share the nodes details of the publisher to the subscriber node**.
+
 <br>
 After receiving the node details, these **two nodes will interconnect** using the `TCPROS protocol`, which is based on `TCP/IP sockets`, and `ROS master` will relinquish its role in controlling them.
 
@@ -90,7 +91,7 @@ As example let's run the `tutlesim` node, in a new terminal run
 $ rosrun turtlesim turtlesim_node
 ```
 
-<br>
+<br><br>
 
 
 * **ROS topics** <br>
@@ -106,7 +107,7 @@ rosrun rqt_graph rqt_graph
 
 
 
-<br>
+<br><br>
 
 ## 4. Anatomy of a ROS node
 
